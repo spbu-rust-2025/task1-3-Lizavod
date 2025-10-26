@@ -1,5 +1,5 @@
-use std::fs::File;
-use std::path::Path;
+use std::fs;
+use std::io;
 
 fn read_string() -> String {
     let mut string = String::new();
@@ -8,12 +8,13 @@ fn read_string() -> String {
         .expect("failure");
     return string;
 }
+fn read_file_contents(filename: &str) -> io::Result<String> {
+    fs::read_to_string(filename)
+}
 
 fn main() {
     let file_path = read_string();
-    let path = Path::new(file_path.trim());
-    let result = File::open(path);
-    match result {
+    match read_file_contents(file_path.trim()) {
         Ok(_) => println!("success"),
         Err(_) => println!("failure")
     }
